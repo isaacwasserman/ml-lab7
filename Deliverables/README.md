@@ -17,8 +17,11 @@ All CLI commands were run from the included Jupyter notebook, but I have include
 ```bash
 rm sentiment.model
 rm .cache
-vw --random_seed 1 --ngram {nGramLength} --l2 0 --cache --final_regressor sentiment.model --loss_function logistic --passes {nPasses} < {trainDataPath} &> /dev/null
-vw --testonly -i sentiment.model --predictions predictions.txt --binary  < {testDataPath}
+dataRevision={nDataRevision}
+curl https://raw.githubusercontent.com/isaacwasserman/ml-lab7/main/saved_sets/train-$dataRevision.vw > train.vw
+curl https://raw.githubusercontent.com/isaacwasserman/ml-lab7/main/saved_sets/train-$dataRevision.vw > test.vw
+vw --random_seed 1 --ngram {nGramLength} --l2 0 --cache --final_regressor sentiment.model --loss_function logistic --passes {nPasses} < train.vw &> /dev/null
+vw --testonly -i sentiment.model --predictions predictions.txt --binary  < test.vw
 ```
 
 To replicate any of the trials listed above, replace the `{nGramLength}` and `nPasses` with the parameters listed in the table. Replace `{trainDataPath}` and `{testDataPath}` with the paths to the datasets in `saved_sets/` that correspond to the data revision number listed in the table.
@@ -30,8 +33,11 @@ To replicate the "Bigrams x7" model:
 ```bash
 rm sentiment.model
 rm .cache
-vw --random_seed 1 --ngram 2 --l2 0 --cache --final_regressor sentiment.model --loss_function logistic --passes 7 < saved_sets/train-15.vw &> /dev/null
-vw --testonly -i sentiment.model --predictions predictions.txt --binary  < saved_sets/test-15.vw
+dataRevision=15
+curl https://raw.githubusercontent.com/isaacwasserman/ml-lab7/main/saved_sets/train-$dataRevision.vw > train.vw
+curl https://raw.githubusercontent.com/isaacwasserman/ml-lab7/main/saved_sets/train-$dataRevision.vw > test.vw
+vw --random_seed 1 --ngram 2 --l2 0 --cache --final_regressor sentiment.model --loss_function logistic --passes 7 < train.vw &> /dev/null
+vw --testonly -i sentiment.model --predictions predictions.txt --binary  < test.vw
 ```
 
 
